@@ -1,0 +1,232 @@
+@import url(https://fonts.googleapis.com/css?family=Quicksand&display=swap);
+
+body {
+  margin-top: 220px;
+  background-repeat: no-repeat;
+  background-size: 1000px 1000px;
+  background-position: center;
+  background-color: #ffffff;
+  background-image: url(../pictures/logo.png);
+  background-attachment: fixed;
+  font-size: 20px;
+  font-family: 'Quicksand', sans-serif;
+}
+
+nav {
+  float: left;
+  text-align: center;
+  overflow: hidden;
+  background-color: #ffffff;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding-bottom: 20px;
+}
+
+nav.OEVP {
+  background-image: linear-gradient(to bottom right,#33cccc, #006666)
+}
+nav.SPOE {
+  background-image: linear-gradient(to bottom right,red, white)
+}
+nav.FPOE {
+  background-image: linear-gradient(to bottom right,blue, white)
+}
+nav.NEOS {
+  background-image: linear-gradient(to bottom right,#ff33cc, #770055)
+}
+nav.GRUENE {
+  background-image: linear-gradient(to bottom right,green,white )
+}
+
+h1 {
+  font-size: 40px;
+  text-align: center;
+}
+
+h2 {
+  text-align: center;
+  font-size: 30px;
+  clear: both;
+}
+
+h3 {
+  text-align: center;
+  font-size: 25px;
+}
+
+p {
+  text-align: center;
+}
+
+button {
+  border-radius: 5px;
+  background-color: #444343;
+  border: 1px solid black;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+button.home {
+  background-color: white;
+  color: black;
+  border-width: thick;
+}
+
+button:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+  background-color: #000000;
+  transform: scale(1.1, 1.1);
+}
+
+button.home:hover {
+  background-color: #AAAAAA;
+}
+
+ol {
+  width: 50%;
+  padding-left: 25%;
+  padding-right: 25%;
+  list-style-type: upper-roman;
+  list-style-position: inside;
+}
+
+ul {
+  width: 50%;
+  padding-left: 25%;
+  padding-right: 25%;
+}
+
+li {
+  text-shadow: 0 0 10px white;
+  padding-bottom: 20px;
+}
+
+ul ul {
+  padding-top: 10px;
+  margin-left: -70px;
+  width: 500px;
+}
+
+section {
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+section.wide {
+  max-width: none;
+  /*a specific section so the other section doesn´t screw up my tables*/
+  /*and in comparision to the normal section this "standard" section is wide so that´s why it´s called .wide*/
+}
+
+section.news {
+  box-sizing: border-box;
+  float: left;
+  width: 33%; /* three boxes (use 25% for four, and 50% for two, etc) */
+  padding: 40px; /* if you want space between the images */
+}
+
+section.news img{
+  width: 350px;
+  height: 250px;
+  border-radius: 25px;
+}
+
+img.party-logo{
+    margin-left: 10%;
+    float:left;
+    display: block;
+    width: 250px;
+    height: 350px;
+    border-radius: 25px;
+}
+
+img.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+/*img.center:active{
+  transform: scale(2.25, 2.25);
+}*/
+
+img.gif{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  border-radius: 25px
+}
+
+img.fun { /*IT´S ONLY ON THE VERY BOTTOM OF THE IMPRESSUM*/
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+img.fun:hover {
+  transform:rotate(1800deg);
+  transition: 0.5s;
+  transform: rotate(-360deg);
+  width: 300px;
+  height: 80px;
+  border: double 4px transparent;
+  border-radius: 80px;
+  background-image: linear-gradient(to bottom, red, red, white,white, white,red,red), radial-gradient(circle at top, red, red, red, red,red,red, white  );
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+}
+
+
+
+table.party-info {
+  table-layout: fixed;
+  margin: auto;
+  border-collapse: collapse;
+  margin-left: 0px; /*without this margin the entire table sticks to the right side*/
+  width: 30%;
+  margin-bottom: 100px;
+}
+
+table.person-info {
+  table-layout: fixed;
+  margin: auto;
+  border-collapse: collapse;
+  margin-left: 100px; /*without this margin the entire table sticks to the right side*/
+  width: 50%;
+  margin-bottom: 100px;
+}
+
+td {
+  padding: 8px;
+  width: 25% ;
+}
+
+a:link {
+  color: #ff0000;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #ff9090;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #ffcc66;
+  text-decoration: underline;
+}
+
+a:active {
+  color: #000000;
+  text-decoration: underline;
+}
