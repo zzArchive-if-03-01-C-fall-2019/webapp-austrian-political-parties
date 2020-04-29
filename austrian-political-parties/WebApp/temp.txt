@@ -1,0 +1,5 @@
+x: (width / 4), //Spawnpunkt
+y: height - 100,
+
+x: (width * 0.75 - 50), //Spawnpunkt
+y: height - 100,
