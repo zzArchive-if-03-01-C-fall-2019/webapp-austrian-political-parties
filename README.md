@@ -1,6 +1,12 @@
 # WEB APP - Austrian Political Parties
 Tumble Rumble (only temporary name)
 
+### NEW REPO ###
+Because we are collaborating with Mr Bhuiyan we have created a new repository we can all work in.
+We have agreed with Professor Haslinger to only use the new repo in the future
+Link: https://github.com/Zeno-Paukner/TumbleRumble
+
+
 ### Game Idea ### 
 Tumble Rumble is a javascript-based 2 player brawling web game.
 Before the game starts each player choose one of 4 playable characters, that all have different traits and abilities. 
