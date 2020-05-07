@@ -1,10 +1,5 @@
-# WEB APP - Austrian Political Parties
+# WEB APP - Austrian Political Parties in collaboration with Romeo Bhuiyan
 Tumble Rumble (only temporary name)
-
-### NEW REPO ###
-Because we are collaborating with Mr Bhuiyan we have created a new repository we can all work in.
-We have agreed with Professor Haslinger to only use the new repo in the future
-Link: https://github.com/Zeno-Paukner/TumbleRumble
 
 
 ### Game Idea ### 
