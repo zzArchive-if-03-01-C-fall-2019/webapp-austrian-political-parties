@@ -440,15 +440,17 @@ document.body.addEventListener("keyup", function(e) {
   keys[e.keyCode] = false;
 });
 
+//var platforms = []
 var platforms = [];
-var platThickness = 10;
+//-------------
+var platThickness = 10;d
 
-// floor
+// floord
 platforms.push({
     x: 100,
     y: height - 10,
     width: width - 200,
-    height: 50
+    height: platThickness
 });
 // platforms
 platforms.push({
