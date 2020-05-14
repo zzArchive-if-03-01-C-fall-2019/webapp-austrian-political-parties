@@ -443,7 +443,7 @@ document.body.addEventListener("keyup", function(e) {
 //var platforms = []
 var platforms = [];
 //-------------
-var platThickness = 10;d
+var platThickness = 10;
 
 // floord
 platforms.push({
