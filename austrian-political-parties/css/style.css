@@ -1,0 +1,91 @@
+body {
+  margin-top: 220px;
+  background-image: url("../pictures/Parlament.png");
+  font-family: Arial;
+  font-weight: 900;
+}
+
+nav {
+  float: left;
+  text-align: center;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding-bottom: 20px;
+}
+
+canvas {
+  border: 1px solid #000;
+}
+
+h1 {
+  font-size: 40px;
+  text-align: center;
+}
+
+button {
+  border-radius: 5px;
+  background-color: #444343;
+  border: 1px solid black;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+button.home {
+  background-color: white;
+  color: black;
+  border-width: thick;
+}
+
+button:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+  background-color: #000000;
+  transform: scale(1.1, 1.1);
+}
+
+button.home:hover {
+  background-color: #AAAAAA;
+}
+
+.background{
+  position: absolute;
+    z-index: -1;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: url(assets/Parlament.jpg) center center;
+    opacity: .4;
+    width: 100%;
+    height: 100%;
+}
+kbd {
+  border: 1px solid #888;
+  border-radius: 3px;
+  font-family: Arial;
+  font-size: 11pt;
+  padding: 2px 6px;
+}
+.container {
+  margin-left: 23%;
+  width: 1000px;
+}
+#game {
+  margin-bottom: 15px;
+}
+#health-label, #controls {
+  display: flex;
+  justify-content: space-between;
+}
+
+.health-label {
+  line-height: 1.5em;
+  display: flex;
+  justify-content: space-between;
+}

@@ -154,9 +154,9 @@ img.center {
   width: 50%;
 }
 
-/*img.center:active{
+img.center:active{
   transform: scale(2.25, 2.25);
-}*/
+}
 
 img.gif{
   display: block;
