@@ -25,6 +25,32 @@ class player{
   }
 }
 
+/*
+width = 1000;
+height = 500;
+keys = [];
+
+class CanvasDisplay {
+      constructor() {
+         this.canvas = document.querySelector('canvas');
+		   this.ctx = this.canvas.getContext('2d');
+         this.stageConfig = {
+		      width: window.innerWidth,
+		      height: window.innerHeight
+         };
+         this.canvas.width = this.stageConfig.width;
+         this.canvas.height = this.stageConfig.height;
+         player1 = new player((width / 4), height - 100, "r");
+         player2 = new player((width * 0.75 - 50), height - 100, "l");
+         keys = [];
+         friction = 0.8; //Rutschweite
+         gravity = 0.66;
+         canvas.width = width;
+         canvas.height = height;
+      }
+   }
+*/
+
 var canvas = document.getElementById("canvas"),
     ctx = canvas.getContext("2d"),
     width = 1000,
@@ -66,7 +92,8 @@ var frameRP1 = 1,
 // load player 1 sprites
 for (var i = 0; i <= maxFrames; ++i) {
     player1Sprites[i] = new Image();
-    player1Sprites[i].src = "../../pictures/RendiWagnerRight().png";
+      player1Sprites[i].src = "../../pictures/RendiWagnerRight().png";
+
     if (i == maxFrames) {
         anim1 = function(){
           if (player1.dead == false) {

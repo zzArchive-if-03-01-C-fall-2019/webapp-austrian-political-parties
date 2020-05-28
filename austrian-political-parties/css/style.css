@@ -1,8 +1,12 @@
+@import url(https://fonts.googleapis.com/css?family=Quicksand&display=swap);
+
 body {
   margin-top: 220px;
   background-image: url("../pictures/Parlament.png");
   font-family: Arial;
   font-weight: 900;
+  font-size: 20px;
+  font-family: 'Quicksand', sans-serif;
 }
 
 nav {
@@ -35,6 +39,11 @@ button {
   display: inline-block;
   font-size: 16px;
   font-weight: 600;
+}
+
+button.togame{
+  margin-left: 45%;
+  background-color: #851b25;
 }
 
 button.home {
