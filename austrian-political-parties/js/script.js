@@ -49,7 +49,19 @@ class CanvasDisplay {
          canvas.height = height;
       }
    }
-*/
+
+/*class canvas{
+  ctx = canvas.getContext("2d");
+  width = 1000;
+  height = 500;
+  player1 = new player((width / 4), height - 100, "r");
+  player2 = new player((width * 0.75 - 50), height - 100, "l");
+  keys = [];
+  friction = 0.8; //Rutschweite
+  gravity = 0.66;
+  canvas.width = width;
+  canvas.height = height;
+}*/
 
 var canvas = document.getElementById("canvas"),
     ctx = canvas.getContext("2d"),
@@ -64,13 +76,19 @@ var canvas = document.getElementById("canvas"),
     canvas.height = height;
 
 
-setInterval(regenhealth, 3000);
+    setInterval(regenhealth, 3000);
 
-
-function regenhealth() {
-  player1.heatlh -= player1.regen;
-  player2.heatlh -= player2.regen;
-}
+    function regenhealth() {
+      console.log(player1);
+      if (player1.health > 0){
+        player1.health -= player1.regen;
+        displayDamage(player1.health, "p1-damage");
+      }
+      if (player2.health > 0){
+        player2.health -= player2.regen;
+        displayDamage(player2.health, "p2-damage");
+      }
+    }
 
 var frameRP1 = 1,
     frameRP2 = 1,
