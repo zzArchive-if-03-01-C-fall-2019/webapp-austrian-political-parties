@@ -107,10 +107,70 @@ var frameRP1 = 1,
     healthP1 = document.getElementById('p1-health'),
     healthP2 = document.getElementById('p2-health');
 
+//------------------------------------------------------
+var maxFrame = 2;
+var player1Sprite = new Array(maxFrame);
+var anime1;
+
+for(var i = 0; i<= maxFrame; i++){
+  player1Sprite[i] = new Image();
+  player1Sprite[i].src = "../../assets/RendiWagner(" + i + ").png";
+
+  if(i == maxFrame){
+    anime1 = function(){
+      if(player1.dead == false){
+        if(keys[65] && !player1.jumping){
+          ctx.drawImage(player1Sprite[1], player1.x, player1.y);
+        }
+        else if(keys[68] && !player1.jumping){
+          ctx.drawImage(player1Sprite[2], player1.x, player1.y);
+        }
+        else if(player1.jumping == true){
+          if (player1.lastDir == "l") {
+            ctx.drawImage(player1Sprites[1],player1.x,player1.y);
+          }
+          else {
+            ctx.drawImage(player1Sprites[2],player1.x,player1.y);
+          }
+        }
+        else if(keys[81]){
+          if(player1.lastDir == "l"){
+            ctx.drawImage(player1Sprites[1],(player1.x - player1.width / 2),player1.y);
+            if ((player1.x - player1.range) <= (player2.x + player2.width) &&
+              (player1.x - player1.range) >= player2.x  - (player2.width / 2) &&
+              player1.y >= player2.y &&
+              player1.y <= player2.y + player2.height) {
+                hurt(player2, player1, healthP2);
+                    displayDamage(player2.health, "p2-damage");
+                    player2.velX -= player2.health;
+                    player2.lastDir = "l";
+            }
+            else{
+              ctx.drawImage(player1Sprites[2],player1.x,player1.y);
+              if((player1.x + player1.width) + player1.range >= player2.x &&
+                (player1.x + player1.width) + player1.range <= (player2.x + (player2.width * 1.5)) &&
+                player1.y >= player2.y &&
+                player1.y <= player2.y + player2.height) {
+                  hurt(player2, player1, healthP2);
+                  displayDamage(player2.health, "p2-damage");
+                  player2.velX += player2.health;
+                  player2.lastDir = "r";
+              }
+            }
+          }
+        }
+        else{
+          ctx.drawImage(player1Sprites[0],player1.x,player1.y);
+        }
+      }
+    }
+  }
+}
+//------------------------------------------------------
 // load player 1 sprites
 for (var i = 0; i <= maxFrames; ++i) {
     player1Sprites[i] = new Image();
-      player1Sprites[i].src = "../../pictures/RendiWagnerRight().png";
+      player1Sprites[i].src = "../../assets/RendiWagner(2).png";
 
     if (i == maxFrames) {
         anim1 = function(){
@@ -375,7 +435,7 @@ function update() {
   ctx.fill();
 
   // render and animate characters
-  anim1();
+  anime1();
   anim2();
 
   // death animations
