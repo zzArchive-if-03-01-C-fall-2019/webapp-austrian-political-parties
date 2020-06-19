@@ -81,11 +81,22 @@ var canvas = document.getElementById("canvas"),
     function regenhealth() {
       console.log(player1);
       if (player1.health > 0){
-        player1.health -= player1.regen;
+        if (player1.regen >= player1.health){
+          player1.health = 0;
+        }
+        else{
+          player1.health -= player1.regen;
+        }
         displayDamage(player1.health, "p1-damage");
       }
       if (player2.health > 0){
-        player2.health -= player2.regen;
+        if (player2.regen >= player2.health){
+          player2.health = 0;
+        }
+        else{
+          player2.health -= player2.regen;
+        }
+
         displayDamage(player2.health, "p2-damage");
       }
     }
