@@ -1,5 +1,5 @@
 (function() {
-    var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+    let requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
     window.requestAnimationFrame = requestAnimationFrame;
 })();
 
@@ -18,12 +18,15 @@ class player{
     this.velX = 0;
     this.velY = 0;
     this.jumping = false;
+    this.doublejumpready = true;
+    this.jumptime = new Date();
     this.grounded = false;
     this.lastDir = "r";
     this.dead = false;
     this.kills = 0;
   }
 }
+
 
 /*
 width = 1000;
@@ -63,7 +66,7 @@ class CanvasDisplay {
   canvas.height = height;
 }*/
 
-var canvas = document.getElementById("canvas"),
+let canvas = document.getElementById("canvas"),
     ctx = canvas.getContext("2d"),
     width = 1000,
     height = 500,
@@ -101,7 +104,7 @@ var canvas = document.getElementById("canvas"),
       }
     }
 
-var frameRP1 = 1,
+let frameRP1 = 1,
     frameRP2 = 1,
     frameLP1 = 11,
     frameLP2 = 11,
@@ -119,11 +122,11 @@ var frameRP1 = 1,
     healthP2 = document.getElementById('p2-health');
 
 //------------------------------------------------------
-var maxFrame = 2;
-var player1Sprite = new Array(maxFrame);
-var anime1;
+let maxFrame = 2;
+let player1Sprite = new Array(maxFrame);
+let anime1;
 
-for(var i = 0; i<= maxFrame; i++){
+for(let i = 0; i<= maxFrame; i++){
   player1Sprite[i] = new Image();
   player1Sprite[i].src = "../../assets/RendiWagner(" + i + ").png";
 
@@ -131,17 +134,27 @@ for(var i = 0; i<= maxFrame; i++){
     anime1 = function(){
       if(player1.dead == false){
         if(keys[65] && !player1.jumping){
-          ctx.drawImage(player1Sprite[1], player1.x, player1.y);
+          if(player1.lastDir == "l"){
+            ctx.drawImage(player1Sprite[1], player1.x, player1.y);
+          }
+          else{
+            ctx.drawImage(player1Sprite[2], player1.x, player1.y);
+          }
         }
         else if(keys[68] && !player1.jumping){
-          ctx.drawImage(player1Sprite[2], player1.x, player1.y);
+          if(player1.lastDir == "r"){
+            ctx.drawImage(player1Sprite[2], player1.x, player1.y);
+          }
+          else{
+            ctx.drawImage(player1Sprite[1], player1.x, player1.y);
+          }
         }
         else if(player1.jumping == true){
           if (player1.lastDir == "l") {
             ctx.drawImage(player1Sprites[1],player1.x,player1.y);
           }
           else {
-            ctx.drawImage(player1Sprites[1],player1.x,player1.y);
+            ctx.drawImage(player1Sprites[2],player1.x,player1.y);
           }
         }
         else if(keys[81]){
@@ -157,7 +170,7 @@ for(var i = 0; i<= maxFrame; i++){
                     player2.lastDir = "l";
             }
             else{
-              ctx.drawImage(player1Sprites[2],player1.x,player1.y);
+              ctx.drawImage(player1Sprites[1],player1.x,player1.y);
               if((player1.x + player1.width) + player1.range >= player2.x &&
                 (player1.x + player1.width) + player1.range <= (player2.x + (player2.width * 1.5)) &&
                 player1.y >= player2.y &&
@@ -178,10 +191,11 @@ for(var i = 0; i<= maxFrame; i++){
   }
 }
 //------------------------------------------------------
-var player2Sprite = new Array(maxFrame);
-var anime2;
 
-for(var i = 0; i<= maxFrame; i++){
+let player2Sprite = new Array(maxFrame);
+let anime2;
+
+for(let i = 0; i<= maxFrame; i++){
   player2Sprite[i] = new Image();
   player2Sprite[i].src = "../../assets/SebastianKurz(" + i + ").png";
 
@@ -241,10 +255,9 @@ for(var i = 0; i<= maxFrame; i++){
 
 
 // load player 1 sprites
-for (var i = 0; i <= maxFrames; ++i) {
+for (let i = 0; i <= maxFrames; ++i) {
     player1Sprites[i] = new Image();
       player1Sprites[i].src = "../../assets/RendiWagner(2).png";
-
     if (i == maxFrames) {
         anim1 = function(){
           if (player1.dead == false) {
@@ -320,7 +333,7 @@ for (var i = 0; i <= maxFrames; ++i) {
 
 
 // load player 2 sprites
-for (var j = 0; j <= maxFrames; ++j) {
+for (let j = 0; j <= maxFrames; ++j) {
     player2Sprites[j] = new Image();
     player2Sprites[j].src = "../../pictures/SebastianKurzLeft().png";
     if (j == maxFrames) {
@@ -398,30 +411,44 @@ for (var j = 0; j <= maxFrames; ++j) {
 
 function update() {
   // jump
+  if (player1.grounded && !player1.doublejumpready){
+    player1.doublejumpready = true;
+  }
   // player 1
   if (keys[87]) {
-    if (!player1.jumping){
-      player1.jumping = true;
-      player1.velY = -player2.speed * 2;
-    }
     if (!player1.jumping && player1.grounded) {
       player1.jumping = true;
       player1.grounded = false;
       player1.velY = -player1.speed * 2;
+      player1.startjumptime = new Date();
+    }
+    else if(player1.jumping && !player1.grounded && player1.doublejumpready){
+      let endjumptime = new Date();
+      if (endjumptime - player1.startjumptime > 500){
+        player1.velY = -player1.speed * 2;
+        player1.doublejumpready = false;
+      }
     }
   }
   // player 2
-  if (keys[73]) {
-    if (!player2.jumping){
-      player2.jumping = true;
-      player2.velY = -player2.speed * 2;
-    }
-    if (!player2.jumping && player2.grounded) {
-      player2.jumping = true;
-      player2.grounded = false;
-      player2.velY = -player2.speed * 2;
-    }
-  }
+  if (player2.grounded && !player2.doublejumpready){
+   player2.doublejumpready = true;
+ }
+   if (keys[73]) {
+     if (!player2.jumping && player2.grounded) {
+       player2.jumping = true;
+       player2.grounded = false;
+       player2.velY = -player2.speed * 2;
+       player2.startjumptime = new Date();
+     }
+     else if(player2.jumping && !player2.grounded && player2.doublejumpready){
+       let endjumptime = new Date();
+       if (endjumptime - player2.startjumptime > 500){
+         player2.velY = -player2.speed * 2;
+         player2.doublejumpready = false;
+       }
+     }
+ }
   // move left
   // player 1
   if (keys[65]) {
@@ -461,11 +488,11 @@ function update() {
   player1.grounded = false;
   player2.grounded = false;
 
-  for (var k = 0; k < platforms.length; k++) {
+  for (let k = 0; k < platforms.length; k++) {
     ctx.rect(platforms[k].x, platforms[k].y, platforms[k].width, platforms[k].height);
 
-    var dir1 = colCheck(player1, platforms[k]);
-    var dir2 = colCheck(player2, platforms[k]);
+    let dir1 = colCheck(player1, platforms[k]);
+    let dir2 = colCheck(player2, platforms[k]);
 
     if (dir1 === "l" || dir1 === "r") {
       player1.velX = 0;
@@ -544,7 +571,7 @@ function update() {
 
 function colCheck(shapeA, shapeB) {
     // get the vectors to check against
-    var vX = (shapeA.x + (shapeA.width / 2)) - (shapeB.x + (shapeB.width / 2)),
+    let vX = (shapeA.x + (shapeA.width / 2)) - (shapeB.x + (shapeB.width / 2)),
         vY = (shapeA.y + (shapeA.height / 2)) - (shapeB.y + (shapeB.height / 2)),
         // add the half widths and half heights of the objects
         hWidths = (shapeA.width / 2) + (shapeB.width / 2),
@@ -554,7 +581,7 @@ function colCheck(shapeA, shapeB) {
     // if the x and y vector are less than the half width or half height, they we must be inside the object, causing a collision
     if (Math.abs(vX) < hWidths && Math.abs(vY) < hHeights) {
       // figures out on which side we are colliding (top, bottom, left, or right)
-      var oX = hWidths - Math.abs(vX), oY = hHeights - Math.abs(vY);
+      let oX = hWidths - Math.abs(vX), oY = hHeights - Math.abs(vY);
       if (oX >= oY) {
             if (vY > 0) {
                 colDir = "t";
@@ -616,10 +643,10 @@ document.body.addEventListener("keyup", function(e) {
   keys[e.keyCode] = false;
 });
 
-//var platforms = []
-var platforms = [];
+//let platforms = []
+let platforms = [];
 //-------------
-var platThickness = 10;
+let platThickness = 10;
 
 // floor
 platforms.push({
