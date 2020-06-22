@@ -122,7 +122,7 @@ let frameRP1 = 1,
     healthP2 = document.getElementById('p2-health');
 
 //------------------------------------------------------
-let maxFrame = 2;
+let maxFrame = 4;
 let player1Sprite = new Array(maxFrame);
 let anime1;
 
@@ -135,7 +135,7 @@ for(let i = 0; i<= maxFrame; i++){
       if(player1.dead == false){
         if(keys[65] && !player1.jumping){
           if(player1.lastDir == "l"){
-            ctx.drawImage(player1Sprite[1], player1.x, player1.y);
+            ctx.drawImage(player1Sprite[1], player1.x, player2.y);
           }
           else{
             ctx.drawImage(player1Sprite[2], player1.x, player1.y);
@@ -151,26 +151,27 @@ for(let i = 0; i<= maxFrame; i++){
         }
         else if(player1.jumping == true){
           if (player1.lastDir == "l") {
-            ctx.drawImage(player1Sprites[1],player1.x,player1.y);
+            ctx.drawImage(player1Sprite[1],player1.x,player1.y);
           }
           else {
-            ctx.drawImage(player1Sprites[2],player1.x,player1.y);
+            ctx.drawImage(player1Sprite[2],player1.x,player1.y);
           }
         }
         else if(keys[81]){
           if(player1.lastDir == "l"){
-            ctx.drawImage(player1Sprites[1],(player1.x - player1.width / 2),player1.y);
-            if ((player1.x - player1.range) <= (player2.x + player2.width) &&
+            //ctx.drawImage(player1Sprite[3],(player1.x - player1.width / 2),player1.y);
+            ctx.drawImage(player1Sprite[3],player1.x,player1.y);
+            if ((player1.x - player1.range) <= (player1.x + player2.width) &&
               (player1.x - player1.range) >= player2.x  - (player2.width / 2) &&
               player1.y >= player2.y &&
-              player1.y <= player2.y + player2.height) {
+              player1.y <= player2.y + player1.height) {
                 hurt(player2, player1, healthP2);
                     displayDamage(player2.health, "p2-damage");
                     player2.velX -= player2.health;
                     player2.lastDir = "l";
             }
             else{
-              ctx.drawImage(player1Sprites[1],player1.x,player1.y);
+              ctx.drawImage(player1Sprite[4],player1.x,player1.y);
               if((player1.x + player1.width) + player1.range >= player2.x &&
                 (player1.x + player1.width) + player1.range <= (player2.x + (player2.width * 1.5)) &&
                 player1.y >= player2.y &&
@@ -184,7 +185,12 @@ for(let i = 0; i<= maxFrame; i++){
           }
         }
         else{
-          ctx.drawImage(player1Sprites[0],player1.x,player1.y);
+          if(player1.lastDir == "l"){
+            ctx.drawImage(player1Sprite[1],player1.x,player1.y);
+          }
+          else{
+            ctx.drawImage(player1Sprite[2],player1.x,player1.y);
+          }
         }
       }
     }
@@ -203,22 +209,33 @@ for(let i = 0; i<= maxFrame; i++){
     anime2 = function(){
       if(player2.dead == false){
         if(keys[74] && !player2.jumping){
-          ctx.drawImage(player2Sprite[1], player2.x, player2.y);
+          if(player2.lastDir == "l"){
+            ctx.drawImage(player2Sprite[1], player2.x, player2.y);
+          }
+          else{
+            ctx.drawImage(player2Sprite[2], player2.x, player2.y);
+          }
         }
         else if(keys[76] && !player1.jumping){
-          ctx.drawImage(player2Sprite[2], player2.x, player2.y);
+          if(player2.lastDir == "r"){
+            ctx.drawImage(player2Sprite[2], player2.x, player2.y);
+          }
+          else{
+            ctx.drawImage(player2Sprite[1], player2.x, player2.y);
+          }
         }
         else if(player2.jumping == true){
           if (player2.lastDir == "l") {
-            ctx.drawImage(player2Sprites[1],player2.x,player2.y);
+            ctx.drawImage(player2Sprite[1],player2.x,player2.y);
           }
           else {
-            ctx.drawImage(player2Sprites[1],player2.x,player2.y);
+            ctx.drawImage(player2Sprite[2],player2.x,player2.y);
           }
         }
         else if(keys[79]){
           if(player1.lastDir == "l"){
-            ctx.drawImage(player2Sprites[1],(player2.x - player2.width / 2),player2.y);
+            //ctx.drawImage(player2Sprite[3],(player2.x - player2.width / 2),player2.y);
+            ctx.drawImage(player2Sprite[3],player2.x,player2.y);
             if ((player2.x - player2.range) <= (player1.x + player1.width) &&
               (player2.x - player2.range) >= player1.x  - (player1.width / 2) &&
               player2.y >= player1.y &&
@@ -229,7 +246,7 @@ for(let i = 0; i<= maxFrame; i++){
                     player1.lastDir = "l";
             }
             else{
-              ctx.drawImage(player2Sprites[2],player2.x,player2.y);
+              ctx.drawImage(player2Sprite[4],player2.x,player2.y);
               if((player2.x + player2.width) + player2.range >= player1.x &&
                 (player2.x + player2.width) + player2.range <= (player1.x + (player1.width * 1.5)) &&
                 player2.y >= player1.y &&
@@ -243,17 +260,19 @@ for(let i = 0; i<= maxFrame; i++){
           }
         }
         else{
-          ctx.drawImage(player2Sprites[0],player2.x,player2.y);
+          if(player2.lastDir == "l"){
+            ctx.drawImage(player2Sprite[1],player2.x,player2.y);
+          }
+          else{
+            ctx.drawImage(player2Sprite[2],player2.x,player2.y);
+          }
         }
       }
     }
   }
 }
-
-
 //-------------------------------------------------------------------------------
-
-
+/*
 // load player 1 sprites
 for (let i = 0; i <= maxFrames; ++i) {
     player1Sprites[i] = new Image();
@@ -331,11 +350,11 @@ for (let i = 0; i <= maxFrames; ++i) {
     }
 }
 
-
+/*
 // load player 2 sprites
 for (let j = 0; j <= maxFrames; ++j) {
     player2Sprites[j] = new Image();
-    player2Sprites[j].src = "../../pictures/SebastianKurzLeft().png";
+    player2Sprites[j].src = "../../assets/SebastianKurz(2).png";
     if (j == maxFrames) {
         anim2 = function(){
           if (player2.dead == false) {
@@ -408,7 +427,7 @@ for (let j = 0; j <= maxFrames; ++j) {
         };
     }
 }
-
+*/
 function update() {
   // jump
   if (player1.grounded && !player1.doublejumpready){
