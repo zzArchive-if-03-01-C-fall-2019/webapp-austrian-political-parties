@@ -168,7 +168,7 @@ for(let i = 0; i<= maxFrame; i++){
 		  {
             //ctx.drawImage(player1Sprite[3],(player1.x - player1.width / 2),player1.y);
             ctx.drawImage(player1Sprite[3],player1.x,player1.y);
-            if ((player1.x - player1.range) <= (player1.x + player2.width) && (player1.x - player1.range) >= player2.x  - (player2.width / 2) &&  player1.y >= player2.y && player1.y <= player2.y + player1.height)
+            if ((player1.x - player1.range) <= (player1.x + player2.width) && (player1.x - player1.range) >= player2.x  - (player2.width / 2) &&  player1.y >= player2.y && player1.y <= player2.y + player1.height) 
 			{
                 hurt(player2, player1, healthP2);
                 displayDamage(player2.health, "p2-damage");
@@ -240,12 +240,12 @@ for(let i = 0; i<= maxFrame; i++){
 		let currenttime = new Date();
           if(currenttime - player2.lastattacktime > 1000)
 		  {
-            player2.lastattacktime = new Date();
+            player2.lastattacktime = new Date();	
           if(player2.lastDir == "l")
-		  {
+		  {			 
             //ctx.drawImage(player2Sprite[3],(player2.x - player2.width / 2),player2.y);
             ctx.drawImage(player2Sprite[3],player2.x,player2.y);
-            if ((player2.x - player2.range) <= (player1.x + player1.width) && (player2.x - player2.range) >= player1.x  - (player1.width / 2) && player2.y >= player1.y && player2.y <= player1.y + player2.height)
+            if ((player2.x - player2.range) <= (player1.x + player1.width) && (player2.x - player2.range) >= player1.x  - (player1.width / 2) && player2.y >= player1.y && player2.y <= player1.y + player2.height) 
 			{
                 hurt(player1, player2, healthP1);
                     displayDamage(player1.health, "p1-damage");
@@ -255,7 +255,7 @@ for(let i = 0; i<= maxFrame; i++){
             else
 			{
               ctx.drawImage(player2Sprite[4],player2.x,player2.y);
-              if((player2.x + player2.width) + player2.range >= player1.x && (player2.x + player2.width) + player2.range <= (player1.x + (player1.width * 1.5)) &&  player2.y >= player1.y && player2.y <= player1.y + player1.height)
+              if((player2.x + player2.width) + player2.range >= player1.x && (player2.x + player2.width) + player2.range <= (player1.x + (player1.width * 1.5)) &&  player2.y >= player1.y && player2.y <= player1.y + player1.height) 
 			  {
                   hurt(player1, player2, healthP1);
                   displayDamage(player1.health, "p1-damage");
@@ -437,7 +437,7 @@ for (let j = 0; j <= maxFrames; ++j) {
 */
 function update() {
   // jump
-
+  
   // player 1
   if (player1.grounded && !player1.doublejumpready){
     player1.doublejumpready = true;
