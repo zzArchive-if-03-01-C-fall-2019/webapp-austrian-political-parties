@@ -19,8 +19,7 @@ class player{
     this.velY = 0;
     this.jumping = false;
     this.doublejumpready = true;
-    this.startjumptime = new Date();
-	this.lastattacktime = new Date();
+    this.jumptime = new Date();
     this.grounded = false;
     this.lastDir = "r";
     this.dead = false;
@@ -158,27 +157,25 @@ for(let i = 0; i<= maxFrame; i++){
             ctx.drawImage(player1Sprite[2],player1.x,player1.y);
           }
         }
-        else if(keys[81])
-		{
-		  let currenttime = new Date();
-          if(currenttime - player1.lastattacktime > 1000)
-		  {
-            player1.lastattacktime = new Date();
-          if(player1.lastDir == "l")
-		  {
+        else if(keys[81]){
+          if(player1.lastDir == "l"){
             //ctx.drawImage(player1Sprite[3],(player1.x - player1.width / 2),player1.y);
             ctx.drawImage(player1Sprite[3],player1.x,player1.y);
-            if ((player1.x - player1.range) <= (player1.x + player2.width) && (player1.x - player1.range) >= player2.x  - (player2.width / 2) &&  player1.y >= player2.y && player1.y <= player2.y + player1.height)
-			{
+            if ((player1.x - player1.range) <= (player1.x + player2.width) &&
+              (player1.x - player1.range) >= player2.x  - (player2.width / 2) &&
+              player1.y >= player2.y &&
+              player1.y <= player2.y + player1.height) {
                 hurt(player2, player1, healthP2);
-                displayDamage(player2.health, "p2-damage");
-                player2.velX -= player2.health;
-                player2.lastDir = "l";
+                    displayDamage(player2.health, "p2-damage");
+                    player2.velX -= player2.health;
+                    player2.lastDir = "l";
             }
-            else
-			{
+            else{
               ctx.drawImage(player1Sprite[4],player1.x,player1.y);
-              if((player1.x + player1.width) + player1.range >= player2.x && (player1.x + player1.width) + player1.range <= (player2.x + (player2.width * 1.5)) && player1.y >= player2.y && player1.y <= player2.y + player2.height) {
+              if((player1.x + player1.width) + player1.range >= player2.x &&
+                (player1.x + player1.width) + player1.range <= (player2.x + (player2.width * 1.5)) &&
+                player1.y >= player2.y &&
+                player1.y <= player2.y + player2.height) {
                   hurt(player2, player1, healthP2);
                   displayDamage(player2.health, "p2-damage");
                   player2.velX += player2.health;
@@ -186,7 +183,6 @@ for(let i = 0; i<= maxFrame; i++){
               }
             }
           }
-		  }
         }
         else{
           if(player1.lastDir == "l"){
@@ -237,33 +233,30 @@ for(let i = 0; i<= maxFrame; i++){
           }
         }
         else if(keys[79]){
-		let currenttime = new Date();
-          if(currenttime - player2.lastattacktime > 1000)
-		  {
-            player2.lastattacktime = new Date();
-          if(player2.lastDir == "l")
-		  {
+          if(player1.lastDir == "l"){
             //ctx.drawImage(player2Sprite[3],(player2.x - player2.width / 2),player2.y);
             ctx.drawImage(player2Sprite[3],player2.x,player2.y);
-            if ((player2.x - player2.range) <= (player1.x + player1.width) && (player2.x - player2.range) >= player1.x  - (player1.width / 2) && player2.y >= player1.y && player2.y <= player1.y + player2.height)
-			{
+            if ((player2.x - player2.range) <= (player1.x + player1.width) &&
+              (player2.x - player2.range) >= player1.x  - (player1.width / 2) &&
+              player2.y >= player1.y &&
+              player2.y <= player1.y + player2.height) {
                 hurt(player1, player2, healthP1);
                     displayDamage(player1.health, "p1-damage");
                     player1.velX -= player1.health;
                     player1.lastDir = "l";
             }
-            else
-			{
+            else{
               ctx.drawImage(player2Sprite[4],player2.x,player2.y);
-              if((player2.x + player2.width) + player2.range >= player1.x && (player2.x + player2.width) + player2.range <= (player1.x + (player1.width * 1.5)) &&  player2.y >= player1.y && player2.y <= player1.y + player1.height)
-			  {
+              if((player2.x + player2.width) + player2.range >= player1.x &&
+                (player2.x + player2.width) + player2.range <= (player1.x + (player1.width * 1.5)) &&
+                player2.y >= player1.y &&
+                player2.y <= player1.y + player1.height) {
                   hurt(player1, player2, healthP1);
                   displayDamage(player1.health, "p1-damage");
                   player1.velX += player1.health;
                   player1.lastDir = "r";
               }
             }
-		  }
           }
         }
         else{
@@ -437,11 +430,10 @@ for (let j = 0; j <= maxFrames; ++j) {
 */
 function update() {
   // jump
-
-  // player 1
   if (player1.grounded && !player1.doublejumpready){
     player1.doublejumpready = true;
   }
+  // player 1
   if (keys[87]) {
     if (!player1.jumping && player1.grounded) {
       player1.jumping = true;
