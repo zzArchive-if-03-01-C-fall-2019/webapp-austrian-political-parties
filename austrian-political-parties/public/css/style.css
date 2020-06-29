@@ -41,8 +41,25 @@ button {
   font-weight: 600;
 }
 
+button.selection{
+  margin-left: 30%;
+}
+
+button.sel1{
+  margin-left: 44%;
+}
+
+button.sel2{
+  margin-right: 30%;
+}
+
+
+img.selection{
+  margin-left: 30%;
+}
+
 button.togame{
-  margin-left: 45%;
+  margin-left: 47%;
   background-color: #851b25;
 }
 
@@ -50,6 +67,13 @@ button.home {
   background-color: white;
   color: black;
   border-width: thick;
+}
+
+ul.selection {
+  margin-left: 20%;
+  display: inline-block;
+  *display: inline;
+    /*zoom: 1*/
 }
 
 button:hover {

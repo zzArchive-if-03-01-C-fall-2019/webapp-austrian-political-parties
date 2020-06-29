@@ -1,16 +1,14 @@
-import {p1character, p2character} from 'selection.js';
-/*console.log(p1character);
-console.log(p2character);*/
 (function() {
     let requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
     window.requestAnimationFrame = requestAnimationFrame;
 })();
 
 class player{
-  constructor(_x, _y, _lastDir) {
+  constructor(_x, _y, _lastDir, _char) {
     this.x = _x;
     this.y = _y;
     this.lastDir = _lastDir;
+    this.char = _char;
     this.width = 50;
     this.height = 100;
     this.speed = 7;
@@ -68,13 +66,17 @@ class CanvasDisplay {
   canvas.width = width;
   canvas.height = height;
 }*/
+let p1character = getCookie("p1character");
+let p2character = getCookie("p2character");
+console.log(p1character);
+console.log(p2character);
 
 let canvas = document.getElementById("canvas"),
     ctx = canvas.getContext("2d"),
     width = 1000,
     height = 500,
-    player1 = new player((width / 4), height - 100, "r"),
-    player2 = new player((width * 0.75 - 50), height - 100, "l"),
+    player1 = new player((width / 4), height - 100, "r", p1character),
+    player2 = new player((width * 0.75 - 50), height - 100, "l", p2character),
     keys = [],
     friction = 0.8, //Rutschweite
     gravity = 0.66;
@@ -85,7 +87,6 @@ let canvas = document.getElementById("canvas"),
     setInterval(regenhealth, 3000);
 
     function regenhealth() {
-      console.log(player1);
       if (player1.health > 0){
         if (player1.regen >= player1.health){
           player1.health = 0;
@@ -655,6 +656,22 @@ function respawn(newLife) {
   newLife.x = (newLife == player1 ? (width / 4) : (width * 0.75 - 50));
   newLife.y = height - 100;
   newLife.health = 0;
+}
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
 }
 
 window.addEventListener("load", function(){

@@ -17,26 +17,28 @@
     <button onclick="window.location.href = 'Impressum.html';">Impressum</button>
     <button class="home" onclick="window.location.href = 'http://localhost:3000/';">Poilitical Tracker Austria</button>
   </nav>
-<div class="container">
-  <div id="game">
-    <canvas id="canvas"></canvas>
-    <div id="health-label">
-        <div class="health-label">
-          <strong>
-            <strong>Player 1</strong><br><span id=p1-damage>0</span>%<br><span id="p1-kills">0</span> KO(s)
-          </strong>
-        </div>
-        <div class="health-label">
-          <strong>
-            <strong>Player 2</strong><br><span id=p2-damage>0</span>%<br><span id="p2-kills">0</span> KO(s)
-          </strong>
-        </div>
-    </div>
-  </div>
-</div>
 
-<button class="togame" onclick="window.location.href = 'WebApp.html';">RESTART</button>
-<!-- partial -->
-  <script type="module" src="../../js/script.mjs"></script>
+  <h1>hallo</h1>
+
+  <button id="P1" class="sel1">Player1</button>
+  <button id="P2" class="sel2">Player2</button>
+  <img class = "selection" src="../../assets/SebastianKurz(0).png" alt="Basti">
+  <img class = "selection" src="../../assets/RendiWagner(0).png" alt="Rendi">
+  <button id="Basti" class="selection">BASTI</button>
+  <button id="Rendi" class="selection">RENDI</button>
+  <br />
+  <ul class="selection">
+    <li>Passive:</li>
+    <li>Active:</li>
+    <li>Ultimate:</li>
+  </ul>
+  <ul class="selection">
+    <li>Passive:</li>
+    <li>Active:</li>
+    <li>Ultimate:</li>
+  </ul>
+  <button class="togame" onclick="window.location.href = 'WebApp.html';">Start</button>
+
+<script type="module" src="../../js/selection.mjs"></script>
 </body>
 </html>
