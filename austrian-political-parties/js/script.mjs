@@ -146,7 +146,7 @@ let anime1;
 
 for(let i = 0; i<= maxFrame; i++){
   player1Sprite[i] = new Image();
-  player1Sprite[i].src = "../../assets/RendiWagner(" + i + ").png";
+  player1Sprite[i].src = "../../assets/Strache(" + i +").png";
 
   if(i == maxFrame){
     anime1 = function(){
