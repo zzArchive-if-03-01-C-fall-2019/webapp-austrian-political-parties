@@ -70,6 +70,8 @@ let p1character = getCookie("p1character");
 let p2character = getCookie("p2character");
 let map = getCookie("map");
 console.log(map);
+console.log(p1character);
+console.log(p2character);
 
 switch(map){
   case "1":
@@ -146,7 +148,7 @@ let anime1;
 
 for(let i = 0; i<= maxFrame; i++){
   player1Sprite[i] = new Image();
-  player1Sprite[i].src = "../../assets/Strache(" + i +").png";
+  player1Sprite[i].src = "../../assets/Character("+player1.char+")(" + i +").png";
 
   if(i == maxFrame){
     anime1 = function(){
@@ -222,7 +224,7 @@ let anime2;
 
 for(let i = 0; i<= maxFrame; i++){
   player2Sprite[i] = new Image();
-  player2Sprite[i].src = "../../assets/SebastianKurz(" + i + ").png";
+  player2Sprite[i].src = "../../assets/Character("+player2.char+")(" + i + ").png";
 
   if(i == maxFrame){
     anime2 = function(){
