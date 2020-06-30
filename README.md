@@ -5,7 +5,7 @@ Tumble Rumble (only temporary name)
 ### Game Idea ### 
 Tumble Rumble is a javascript-based 2 player brawling web game.
 Before the game starts each player choose one of 4 playable characters, that all have different traits and abilities. 
-Each character is based one of the four Austrian politicians: Kurz, Rendi-Wagner, Kogler, Hofer. All satire of course.
+Each character is based one of the four Austrian politicians: Kurz, Rendi-Wagner, Kogler, Strache. All satire of course.
 Each player starts on a side platform. For better visualisation:
 https://docs.google.com/document/d/1FQhNz0PCeNYhcVlcg3zj_-GNFy8ZRM7rbI1mvWfFZTk/edit
 The players then can use different abilities and attacks to fight their opponent. More on that in the gameplay section. Each round their goal is to kick their opponent off the platform. After every round the player can upgrade their character (e. g. higher movement speed or more attack damage). Best of 5 rounds format.
