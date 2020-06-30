@@ -68,8 +68,22 @@ class CanvasDisplay {
 }*/
 let p1character = getCookie("p1character");
 let p2character = getCookie("p2character");
-console.log(p1character);
-console.log(p2character);
+let map = getCookie("map");
+console.log(map);
+
+switch(map){
+  case "1":
+    document.body.style.backgroundImage = "url('../assets/background1.png')";
+    break;
+  case "2":
+    document.body.style.backgroundImage = "url('../assets/background2.jpg')";
+    break;
+  case "3":
+    document.body.style.backgroundImage = "url('../assets/background3.jpg')";
+    break;
+}
+
+document.body.style.backgroundSize ="2000px 1000px"
 
 let canvas = document.getElementById("canvas"),
     ctx = canvas.getContext("2d"),
@@ -170,9 +184,9 @@ for(let i = 0; i<= maxFrame; i++){
               player1.y >= player2.y &&
               player1.y <= player2.y + player1.height) {
                 hurt(player2, player1, healthP2);
-                    displayDamage(player2.health, "p2-damage");
-                    player2.velX -= player2.health;
-                    player2.lastDir = "l";
+                displayDamage(player2.health, "p2-damage");
+                player2.velX -= player2.health;
+                player2.lastDir = "l";
             }
           }
           else{
