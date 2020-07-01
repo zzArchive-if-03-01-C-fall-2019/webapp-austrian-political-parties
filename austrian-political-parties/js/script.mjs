@@ -8,13 +8,13 @@ class player{
     this.x = _x;
     this.y = _y;
     this.lastDir = _lastDir;
-    this.char = _char;
+    this.char = _char; //1 basti, 2 Renid, 3 HC, 4 Werna
     this.width = 50;
     this.height = 100;
     this.speed = 7;
     this.health = 0;
     this.regen = 1;
-    this.attack = 1;
+    this.attack = 2;
     this.range = 50;
     this.velX = 0;
     this.velY = 0;
@@ -25,6 +25,20 @@ class player{
     this.lastDir = "r";
     this.dead = false;
     this.kills = 0;
+    switch (this.char) {
+      case "1":
+        this.health = -10;
+        break;
+      case "2":
+        this.attack = 1;
+        break;
+      case "1":
+          this.health = -10;
+          break;
+      case "4":
+        this.regen = 2;
+        break;
+    }
   }
 }
 
@@ -68,10 +82,9 @@ class CanvasDisplay {
 }*/
 let p1character = getCookie("p1character");
 let p2character = getCookie("p2character");
-let map = getCookie("map");
-console.log(map);
 console.log(p1character);
 console.log(p2character);
+let map = getCookie("map");
 
 switch(map){
   case "1":
