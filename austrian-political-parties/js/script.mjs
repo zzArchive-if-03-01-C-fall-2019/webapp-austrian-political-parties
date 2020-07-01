@@ -26,7 +26,7 @@ class player{
     this.dead = false;
     this.kills = 0;
     switch (this.char) {
-      case "1": 
+      case "1":
         this.health = -10;
         break;
       case "2":
@@ -111,10 +111,8 @@ let canvas = document.getElementById("canvas"),
     gravity = 0.66;
     canvas.width = width;
     canvas.height = height;
-    displayDamage(player1.health, "p2-damage");
-    displayDamage(player2.health, "p1-damage");
-    console.log(player2);
-    console.log(player1);
+let deathcounted = false;
+
 
     setInterval(regenhealth, 3000);
 
@@ -240,7 +238,7 @@ let anime2;
 
 for(let i = 0; i<= maxFrame; i++){
   player2Sprite[i] = new Image();
-  player2Sprite[i].src = "../../assets/Character("+player2.char+")(" + i + ").png";
+  player2Sprite[i].src = "../../assets/Character(" + player2.char + ")(" + i + ").png";
 
   if(i == maxFrame){
     anime2 = function(){
@@ -467,6 +465,17 @@ for (let j = 0; j <= maxFrames; ++j) {
 }
 */
 function update() {
+  //Deathmechanic
+  if(player1.y >= 410 && deathcounted == false){
+    incKO(player2, "p2-kills");
+    deathcounted = true;
+    //Insert Hyperlink
+  }
+  if(player2.y >= 410 && deathcounted == false){
+    incKO(player1, "p1-kills");
+    deathcounted = true;
+    //Insert Hyperlink
+  }
   // jump
   if (player1.grounded && !player1.doublejumpready){
     player1.doublejumpready = true;
