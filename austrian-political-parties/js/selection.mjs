@@ -124,7 +124,6 @@ document.getElementById("char1").addEventListener("click", function()
     document.cookie = "p"+player+"character=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     document.cookie = "p"+player+"character="+"1"+ ";Path=/";
   }
-
 }
 );
 
