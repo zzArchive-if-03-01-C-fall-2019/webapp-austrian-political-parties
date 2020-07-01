@@ -98,6 +98,7 @@ let canvas = document.getElementById("canvas"),
     gravity = 0.66;
     canvas.width = width;
     canvas.height = height;
+let deathcounted = false;
 
 
     setInterval(regenhealth, 3000);
@@ -224,7 +225,7 @@ let anime2;
 
 for(let i = 0; i<= maxFrame; i++){
   player2Sprite[i] = new Image();
-  player2Sprite[i].src = "../../assets/Character("+player2.char+")(" + i + ").png";
+  player2Sprite[i].src = "../../assets/Character(" + player2.char + ")(" + i + ").png";
 
   if(i == maxFrame){
     anime2 = function(){
@@ -451,6 +452,17 @@ for (let j = 0; j <= maxFrames; ++j) {
 }
 */
 function update() {
+  //Deathmechanic
+  if(player1.y >= 410 && deathcounted == false){
+    incKO(player2, "p2-kills");
+    deathcounted = true;
+    //Insert Hyperlink
+  }
+  if(player2.y >= 410 && deathcounted == false){
+    incKO(player1, "p1-kills");
+    deathcounted = true;
+    //Insert Hyperlink
+  }
   // jump
   if (player1.grounded && !player1.doublejumpready){
     player1.doublejumpready = true;
