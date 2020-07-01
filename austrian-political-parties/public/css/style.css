@@ -91,7 +91,6 @@ img.selection{
 }
 
 button.togame{
-  margin-left: 47%;
   background-color: #851b25;
 }
 
@@ -153,4 +152,17 @@ kbd {
   line-height: 1.5em;
   display: flex;
   justify-content: space-between;
+}
+
+.format{
+  text-align: center;
+  border: 5px solid grey;
+  border-radius: 10px;
+  margin-left: 250px;
+  margin-right: 250px;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+.format-button{
+  text-align: center;
 }
