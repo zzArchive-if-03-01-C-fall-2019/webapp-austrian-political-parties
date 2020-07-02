@@ -1,7 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Quicksand&display=swap);
 
 body {
-  margin-top: 220px;
   background-image: url("../../assets/Parlament.png");
   font-family: Arial;
   font-weight: 900;
@@ -39,6 +38,11 @@ h1 {
   text-align: center;
 }
 
+h2 {
+  font-size: 20px;
+  text-align: center;
+}
+
 #content{
 width: 100vw;
 position: relative;
@@ -73,21 +77,17 @@ img.sel0{
   border-radius: 3%;
 }
 
-#up1{
-  float: left;
-  margin-right: 40%;
-}
-
-#up2{
-
-}
 
 
 img.upsel{
   height: 50px;
   width: 50px;
-  margin-left: 29%;
-  margin-right: -1%;
+  margin-left: 20%;
+  border-width: 2px;
+  border-color: grey;
+  border-style: solid;
+  padding: 2px;
+  border-radius: 20px;
 }
 
 button.picsel{
@@ -157,7 +157,7 @@ kbd {
   padding: 2px 6px;
 }
 .container {
-  margin-left: 22%;
+  margin-left: 20%;
   width: 1000px;
 }
 #game {

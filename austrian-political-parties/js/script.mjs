@@ -4,7 +4,7 @@
 })();
 
 class player{
-  constructor(_x, _y, _lastDir, _char) {
+  constructor(_x, _y, _lastDir, _char, knock, atk, reg, shd) {
     this.x = _x;
     this.y = _y;
     this.lastDir = _lastDir;
@@ -12,9 +12,10 @@ class player{
     this.width = 50;
     this.height = 100;
     this.speed = 7;
-    this.health = 0;
-    this.regen = 1;
-    this.attack = 2;
+    this.health = shd;
+    this.regen = reg;
+    this.knockback = knock;
+    this.attack = atk;
     this.range = 50;
     this.velX = 0;
     this.velY = 0;
@@ -26,66 +27,38 @@ class player{
     this.dead = false;
     this.kills = 0;
     switch (this.char) {
-      case "1":
-        this.health = -10;
-        break;
       case "2":
-        this.attack = 1;
+        this.attack = this.attack / 2;
+        this.undead = 1;
         break;
-      case "1":
-          this.health = -10;
+      case "3":
+          this.health -=10;
           break;
       case "4":
-        this.regen = 2;
+        this.regen = this.regen * 2;
         break;
     }
   }
 }
 
+let p1knock = 1;
+let p1atk = 2;
+let p1reg = 1;
+let p1shd = 0;
 
-/*
-width = 1000;
-height = 500;
-keys = [];
+let p2knock = 1;
+let p2atk = 2;
+let p2reg = 1;
+let p2shd = 0;
 
-class CanvasDisplay {
-      constructor() {
-         this.canvas = document.querySelector('canvas');
-		   this.ctx = this.canvas.getContext('2d');
-         this.stageConfig = {
-		      width: window.innerWidth,
-		      height: window.innerHeight
-         };
-         this.canvas.width = this.stageConfig.width;
-         this.canvas.height = this.stageConfig.height;
-         player1 = new player((width / 4), height - 100, "r");
-         player2 = new player((width * 0.75 - 50), height - 100, "l");
-         keys = [];
-         friction = 0.8; //Rutschweite
-         gravity = 0.66;
-         canvas.width = width;
-         canvas.height = height;
-      }
-   }
 
-/*class canvas{
-  ctx = canvas.getContext("2d");
-  width = 1000;
-  height = 500;
-  player1 = new player((width / 4), height - 100, "r");
-  player2 = new player((width * 0.75 - 50), height - 100, "l");
-  keys = [];
-  friction = 0.8; //Rutschweite
-  gravity = 0.66;
-  canvas.width = width;
-  canvas.height = height;
-}*/
+
+let round = 1;
+let go = 1;
 let p1character = getCookie("p1character");
 let p2character = getCookie("p2character");
-console.log(p1character);
-console.log(p2character);
 let map = getCookie("map");
-
+document.cookie = "winner="+"8"+ ";Path=/";
 switch(map){
   case "1":
     document.body.style.backgroundImage = "url('../assets/background1.png')";
@@ -98,17 +71,25 @@ switch(map){
     break;
 }
 
-document.body.style.backgroundSize ="2000px 1000px"
+document.body.style.backgroundSize ="2000px 1200px"
 
 let canvas = document.getElementById("canvas"),
     ctx = canvas.getContext("2d"),
     width = 1000,
     height = 500,
-    player1 = new player((width / 4), height - 100, "r", p1character),
-    player2 = new player((width * 0.75 - 50), height - 100, "l", p2character),
+    player1 = new player((width / 4), height - 100, "r", p1character, p1knock, p1atk, p1reg, p1shd),
+    player2 = new player((width * 0.75 - 50), height - 100, "l", p2character, p2knock, p2atk, p2reg, p2shd),
     keys = [],
     friction = 0.8, //Rutschweite
     gravity = 0.66;
+    if (player1.char == 1){
+      player2.healthregeneration = player2.healthregeneration / 2;
+    }
+    if (player2.char == 1){
+      player1.healthregeneration = player1.healthregeneration / 2;
+    }
+    displayDamage(player1.health, "p1-damage");
+    displayDamage(player2.health, "p2-damage");
     canvas.width = width;
     canvas.height = height;
 let deathcounted = false;
@@ -201,7 +182,7 @@ for(let i = 0; i<= maxFrame; i++){
               player1.y <= player2.y + player1.height) {
                 hurt(player2, player1, healthP2);
                 displayDamage(player2.health, "p2-damage");
-                player2.velX -= player2.health;
+                player2.velX -= player2.health * player1.knockback;
                 player2.lastDir = "l";
             }
           }
@@ -214,7 +195,7 @@ for(let i = 0; i<= maxFrame; i++){
               player1.y <= player2.y + player2.height) {
                 hurt(player2, player1, healthP2);
                 displayDamage(player2.health, "p2-damage");
-                player2.velX += player2.health;
+                player2.velX += player2.health * player1.knockback;
                 player2.lastDir = "r";
             }
           }
@@ -277,7 +258,7 @@ for(let i = 0; i<= maxFrame; i++){
               player2.y <= player1.y + player2.height) {
                 hurt(player1, player2, healthP1);
                     displayDamage(player1.health, "p1-damage");
-                    player1.velX -= player1.health;
+                    player1.velX -= player1.health * player2.knockback;
                     player1.lastDir = "l";
             }
           }
@@ -290,7 +271,7 @@ for(let i = 0; i<= maxFrame; i++){
               player2.y <= player1.y + player1.height) {
                 hurt(player1, player2, healthP1);
                 displayDamage(player1.health, "p1-damage");
-                player1.velX += player1.health;
+                player1.velX += player1.health * player2.knockback;
                 player1.lastDir = "r";
             }
           }
@@ -307,332 +288,269 @@ for(let i = 0; i<= maxFrame; i++){
     }
   }
 }
-//-------------------------------------------------------------------------------
-/*
-// load player 1 sprites
-for (let i = 0; i <= maxFrames; ++i) {
-    player1Sprites[i] = new Image();
-      player1Sprites[i].src = "../../assets/RendiWagner(2).png";
-    if (i == maxFrames) {
-        anim1 = function(){
-          if (player1.dead == false) {
-            if (keys[65] && !player1.jumping) {
-              // move left
-              ctx.drawImage(player1Sprites[frameLP1],player1.x,player1.y);
-              ++frameLP1;
-              if (frameLP1 == 22) {
-                  frameLP1 = 11;
-              }
-            } else if (keys[68] && !player1.jumping) {
-             // move right
-              ctx.drawImage(player1Sprites[frameRP1],player1.x,player1.y);
-              ++frameRP1;
-              if (frameRP1 == 11) {
-                  frameRP1 = 1;
-              }
-            } else if (player1.jumping == true) {
-              // jump
-              if (player1.lastDir == "l") {
-                ctx.drawImage(player1Sprites[24],player1.x,player1.y);
-              } else {
-                ctx.drawImage(player1Sprites[23],player1.x,player1.y);
-              }
-            } else if (keys[81]) {
-              // attack
-              if (player1.lastDir == "l") {
-                ctx.drawImage(player1Sprites[frameLPunchP1],(player1.x - player1.width / 2),player1.y);
-                if (frameLPunchP1 != 36) {
-                  ++frameLPunchP1;
-                  // dealing damage from right
-                  if ((player1.x - player1.range) <= (player2.x + player2.width) &&
-                    (player1.x - player1.range) >= player2.x  - (player2.width / 2) &&
-                    player1.y >= player2.y &&
-                    player1.y <= player2.y + player2.height) {
-                      hurt(player2, player1, healthP2);
-                          displayDamage(player2.health, "p2-damage");
-                          player2.velX -= player2.health;
-                          player2.lastDir = "l";
-                  }
-                }
-                if (frameLPunchP1 == 46) {
-                  frameLPunchP1 = 36;
-                }
-              } else {
-                ctx.drawImage(player1Sprites[frameRPunchP1],player1.x,player1.y);
-                if (frameRPunchP1 != 25) {
-                  ++frameRPunchP1;
-                  // dealing damage from left
-                  if ((player1.x + player1.width) + player1.range >= player2.x &&
-                    (player1.x + player1.width) + player1.range <= (player2.x + (player2.width * 1.5)) &&
-                    player1.y >= player2.y &&
-                    player1.y <= player2.y + player2.height) {
-                      hurt(player2, player1, healthP2);
-                      displayDamage(player2.health, "p2-damage");
-                      player2.velX += player2.health;
-                      player2.lastDir = "r";
-                  }
-                }
-                if (frameRPunchP1 == 35) {
-                  frameRPunchP1 = 25;
-                }
-              }
-            } else {
-              ctx.drawImage(player1Sprites[0],player1.x,player1.y);
-              frameLPunchP1 = 37;
-              frameRPunchP1 = 26;
-            }
-          }
-        };
-    }
-}
 
-/*
-// load player 2 sprites
-for (let j = 0; j <= maxFrames; ++j) {
-    player2Sprites[j] = new Image();
-    player2Sprites[j].src = "../../assets/SebastianKurz(2).png";
-    if (j == maxFrames) {
-        anim2 = function(){
-          if (player2.dead == false) {
-            if (keys[74] && !player2.jumping) {
-              // move left
-              ctx.drawImage(player2Sprites[frameLP2],player2.x,player2.y);
-              ++frameLP2;
-              if (frameLP2 == 22) {
-                  frameLP2 = 11;
-              }
-            } else if (keys[76] && !player2.jumping) {
-              // move right
-              ctx.drawImage(player2Sprites[frameRP2],player2.x,player2.y);
-              ++frameRP2;
-              if (frameRP2 == 11) {
-                  frameRP2 = 1;
-              }
-            } else if (player2.jumping == true) {
-              // jump
-              if (player2.lastDir == "l") {
-                ctx.drawImage(player2Sprites[24],player2.x,player2.y);
-              } else {
-                ctx.drawImage(player2Sprites[23],player2.x,player2.y);
-              }
-            } else if (keys[79]) {
-              // attack
-              if (player2.lastDir == "l") {
-                ctx.drawImage(player2Sprites[frameLPunchP2],(player2.x - player2.width / 2),player2.y);
-                if (frameLPunchP2 != 36) {
-                  ++frameLPunchP2;
-                  // dealing damage from right
-                  if ((player2.x - player2.range) <= (player1.x + player1.width) &&
-                    (player2.x - player2.range) >= player1.x - (player1.width / 2) &&
-                    player2.y >= player1.y &&
-                    player2.y <= player1.y + player1.height) {
-                      hurt(player1, player2, healthP1);
-                      displayDamage(player1.health, "p1-damage");
-                      player1.velX -= player1.health;
-                      player1.lastDir = "l";
-                  }
-                }
-                if (frameLPunchP2 == 46) {
-                  frameLPunchP2 = 36;
-                }
-              } else {
-                ctx.drawImage(player2Sprites[frameRPunchP2],player2.x,player2.y);
-                if (frameRPunchP2 != 25) {
-                  ++frameRPunchP2;
-                  // dealing damage from left
-                  if ((player2.x + player2.width) + player2.range >= player1.x &&
-                    (player2.x + player2.width) + player2.range <= (player1.x + (player1.width * 1.5)) &&
-                    player2.y >= player1.y &&
-                    player2.y <= player1.y + player1.height) {
-                      hurt(player1, player2, healthP1);
-                      displayDamage(player1.health, "p1-damage");
-                      player1.velX += player1.health;
-                      player1.lastDir = "r";
-                  }
-                }
-                if (frameRPunchP2 == 35) {
-                  frameRPunchP2 = 25;
-                }
-              }
-            } else {
-              ctx.drawImage(player2Sprites[0],player2.x,player2.y);
-              frameLPunchP2 = 37;
-              frameRPunchP2 = 26;
-            }
-          }
-        };
-    }
-}
-*/
-function update() {
-  //Deathmechanic
-  if(player1.y >= 410 && deathcounted == false){
-    incKO(player2, "p2-kills");
-    deathcounted = true;
-    //Insert Hyperlink
-  }
-  if(player2.y >= 410 && deathcounted == false){
-    incKO(player1, "p1-kills");
-    deathcounted = true;
-    //Insert Hyperlink
-  }
-  // jump
-  if (player1.grounded && !player1.doublejumpready){
-    player1.doublejumpready = true;
-  }
-  // player 1
-  if (keys[87]) {
-    if (!player1.jumping && player1.grounded) {
-      player1.jumping = true;
-      player1.grounded = false;
-      player1.velY = -player1.speed * 2;
-      player1.startjumptime = new Date();
-    }
-    else if(player1.jumping && !player1.grounded && player1.doublejumpready){
-      let endjumptime = new Date();
-      if (endjumptime - player1.startjumptime > 500){
-        player1.velY = -player1.speed * 2;
-        player1.doublejumpready = false;
-      }
-    }
-  }
-  // player 2
-  if (player2.grounded && !player2.doublejumpready){
-   player2.doublejumpready = true;
- }
-   if (keys[73]) {
-     if (!player2.jumping && player2.grounded) {
-       player2.jumping = true;
-       player2.grounded = false;
-       player2.velY = -player2.speed * 2;
-       player2.startjumptime = new Date();
-     }
-     else if(player2.jumping && !player2.grounded && player2.doublejumpready){
-       let endjumptime = new Date();
-       if (endjumptime - player2.startjumptime > 500){
-         player2.velY = -player2.speed * 2;
-         player2.doublejumpready = false;
-       }
-     }
- }
-  // move left
-  // player 1
-  if (keys[65]) {
-   if (player1.velX > -player1.speed) {
-      player1.velX--;
-      player1.lastDir = "l";
-   }
-  }
-  // player 2
-  if (keys[74]) {
-   if (player2.velX > -player2.speed) {
-      player2.velX--;
-      player2.lastDir = "l";
-   }
-  }
-  // move right
-  // player 1
-  if (keys[68]) {
-    if (player1.velX < player1.speed) {
-        player1.velX++;
-        player1.lastDir = "r";
-    }
-  }
-  // player 2
-  if (keys[76]) {
-    if (player2.velX < player2.speed) {
-        player2.velX++;
-        player2.lastDir = "r";
-    }
-  }
-
-  // render stage
-  ctx.clearRect(0,0,width,height);
-  ctx.fillStyle = "#000";
-  ctx.beginPath();
-
-  player1.grounded = false;
-  player2.grounded = false;
-
-  for (let k = 0; k < platforms.length; k++) {
-    ctx.rect(platforms[k].x, platforms[k].y, platforms[k].width, platforms[k].height);
-
-    let dir1 = colCheck(player1, platforms[k]);
-    let dir2 = colCheck(player2, platforms[k]);
-
-    if (dir1 === "l" || dir1 === "r") {
-      player1.velX = 0;
-      player1.jumping = false;
-    } else if (dir1 === "b") {
-      player1.grounded = true;
-      player1.jumping = false;
-    } else if (dir1 === "t") {
-      player1.velY *= -1;
-    }
-
-    if (dir2 === "l" || dir2 === "r") {
-      player2.velX = 0;
-      player2.jumping = false;
-    } else if (dir2 === "b") {
-      player2.grounded = true;
-      player2.jumping = false;
-    } else if (dir2 === "t") {
-      player2.velY *= -1;
-    }
-  }
-
-  if (player1.grounded) {
-    player1.velY = 0;
-  }
-  if (player2.grounded) {
-    player2.velY = 0;
-  }
-
-  player1.x += player1.velX;
-  player1.y += player1.velY;
-  player1.velX *= friction;
-  player1.velY += gravity;
-
-  player2.x += player2.velX;
-  player2.y += player2.velY;
-  player2.velX *= friction;
-  player2.velY += gravity;
-
-  ctx.closePath();
-  ctx.fill();
-
-  // render and animate characters
-  anime1();
-  anime2();
-
-  // death animations
-  if (deathTime != 0 && deathTime < 14) {
-    ++deathTime;
-    if (player1.dead == true) {
-      if (player1.lastDir == "l") {
-        ctx.drawImage(player1Sprites[46 + deathTime],player1.x,player1.y);
-      } else {
-        ctx.drawImage(player1Sprites[60 + deathTime],player1.x,player1.y);
-      }
-      if (deathTime == 13) {
-        incKO(player2, "p2-kills");
-      }
-    } else if (player2.dead == true) {
-      if (player2.lastDir == "l") {
-        ctx.drawImage(player2Sprites[46 + deathTime],player2.x,player2.y);
-      } else {
-        ctx.drawImage(player2Sprites[60 + deathTime],player2.x,player2.y);
-      }
-      if (deathTime == 13) {
-        incKO(player1, "p1-kills");
-      }
-    }
-  }
-  if (deathTime == 14) {
-    deathTime = 14;
-  }
-
+document.getElementById("go").addEventListener("click", function()
+{
+  document.getElementById("up1").innerHTML="";
+  document.getElementById("stats").innerHTML="";
+  document.getElementById("up2").innerHTML="";
+  go = 1;
   requestAnimationFrame(update);
+  let p1k = player1.kills;
+  let p2k = player2.kills;
+  deathcounted = false;
+  let p1upgrade = getCookie("p1upgrade");
+  let p2upgrade = getCookie("p2upgrade");
+  switch (p1upgrade) {
+    case "1":
+      p1reg++;
+      break;
+    case "2":
+      p1knock++;
+      break;
+    case "3":
+      p1atk++;
+      break;
+    case "4":
+    console.log("SSs");
+      p1shd += 10;
+      break;
+  }
+
+  switch (p2upgrade) {
+    case "1":
+    console.log("SSssss");
+      p2reg++;
+      break;
+    case "2":
+      p2knock++;
+      break;
+    case "3":
+      p2atk++;
+      break;
+    case "4":
+      p2shd += 10;
+      break;
+  }
+  player1 = new player((width / 4), height - 100, "r", p1character, p1knock, p1atk, p1reg, p1shd),
+  player2 = new player((width * 0.75 - 50), height - 100, "l", p2character, p2knock, p2atk, p2reg, p2shd),
+  player1.kills = p1k;
+  player2.kills = p2k;
+  console.log(player1);
+  console.log(player2);
+}
+);
+
+function update() {
+  if (go == 0){
+
+  }
+  else{
+    //Deathmechanic                                      ///////////////////////////////////////////////////////////////////////////////
+    if(player1.y >= 600 && deathcounted == false){
+      if (player1.char == 2 && player1.undead == 1){
+        player1.x = (width / 4);
+        player1.y = (height - 100);
+        player1.health = 0;
+        player1.undead = 0;
+      }
+      else{
+        incKO(player2, "p2-kills");
+        if (player2.kills == 3){
+          document.cookie = "winner=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "winner="+"2"+ ";Path=/";
+            alert("PLAYER 2 WON!");
+        }
+        deathcounted = true;
+        round++;
+        go = 0;
+        loadupgrades();
+      }
+    }
+    if(player2.y >= 600 && deathcounted == false){
+      if (player2.char == 2 && player2.undead == 1){
+        player2.health = 0;
+        player2.undead = 0;
+        player2.x = (width * 0.75 - 50)
+        player2.y = (height - 100);
+      }
+      else
+      {
+        incKO(player1, "p1-kills");
+        if (player1.kills == 3){
+          document.cookie = "winner=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "winner="+"1"+ ";Path=/";
+            alert("PLAYER 2 WON!");
+        }
+        deathcounted = true;
+        round++;
+        go = 0;
+        loadupgrades();
+      }
+    }
+    // jump
+    if (player1.grounded && !player1.doublejumpready){
+      player1.doublejumpready = true;
+    }
+    // player 1
+    if (keys[87]) {
+      if (!player1.jumping && player1.grounded) {
+        player1.jumping = true;
+        player1.grounded = false;
+        player1.velY = -player1.speed * 2;
+        player1.startjumptime = new Date();
+      }
+      else if(player1.jumping && !player1.grounded && player1.doublejumpready){
+        let endjumptime = new Date();
+        if (endjumptime - player1.startjumptime > 500){
+          player1.velY = -player1.speed * 2;
+          player1.doublejumpready = false;
+        }
+      }
+    }
+    // player 2
+    if (player2.grounded && !player2.doublejumpready){
+     player2.doublejumpready = true;
+   }
+     if (keys[73]) {
+       if (!player2.jumping && player2.grounded) {
+         player2.jumping = true;
+         player2.grounded = false;
+         player2.velY = -player2.speed * 2;
+         player2.startjumptime = new Date();
+       }
+       else if(player2.jumping && !player2.grounded && player2.doublejumpready){
+         let endjumptime = new Date();
+         if (endjumptime - player2.startjumptime > 500){
+           player2.velY = -player2.speed * 2;
+           player2.doublejumpready = false;
+         }
+       }
+   }
+    // move left
+    // player 1
+    if (keys[65]) {
+     if (player1.velX > -player1.speed) {
+        player1.velX--;
+        player1.lastDir = "l";
+     }
+    }
+    // player 2
+    if (keys[74]) {
+     if (player2.velX > -player2.speed) {
+        player2.velX--;
+        player2.lastDir = "l";
+     }
+    }
+    // move right
+    // player 1
+    if (keys[68]) {
+      if (player1.velX < player1.speed) {
+          player1.velX++;
+          player1.lastDir = "r";
+      }
+    }
+    // player 2
+    if (keys[76]) {
+      if (player2.velX < player2.speed) {
+          player2.velX++;
+          player2.lastDir = "r";
+      }
+    }
+
+    // render stage
+    ctx.clearRect(0,0,width,height);
+    ctx.fillStyle = "#000";
+    ctx.beginPath();
+
+    player1.grounded = false;
+    player2.grounded = false;
+
+    for (let k = 0; k < platforms.length; k++) {
+      ctx.rect(platforms[k].x, platforms[k].y, platforms[k].width, platforms[k].height);
+
+      let dir1 = colCheck(player1, platforms[k]);
+      let dir2 = colCheck(player2, platforms[k]);
+
+      if (dir1 === "l" || dir1 === "r") {
+        player1.velX = 0;
+        player1.jumping = false;
+      } else if (dir1 === "b") {
+        player1.grounded = true;
+        player1.jumping = false;
+      } else if (dir1 === "t") {
+        player1.velY *= -1;
+      }
+
+      if (dir2 === "l" || dir2 === "r") {
+        player2.velX = 0;
+        player2.jumping = false;
+      } else if (dir2 === "b") {
+        player2.grounded = true;
+        player2.jumping = false;
+      } else if (dir2 === "t") {
+        player2.velY *= -1;
+      }
+    }
+
+    if (player1.grounded) {
+      player1.velY = 0;
+    }
+    if (player2.grounded) {
+      player2.velY = 0;
+    }
+
+    player1.x += player1.velX;
+    player1.y += player1.velY;
+    player1.velX *= friction;
+    player1.velY += gravity;
+
+    player2.x += player2.velX;
+    player2.y += player2.velY;
+    player2.velX *= friction;
+    player2.velY += gravity;
+
+    ctx.closePath();
+    ctx.fill();
+
+    // render and animate characters
+    anime1();
+    anime2();
+
+    // death animations
+    if (deathTime != 0 && deathTime < 14) {
+      ++deathTime;
+      if (player1.dead == true) {
+        if (player1.lastDir == "l") {
+          ctx.drawImage(player1Sprites[46 + deathTime],player1.x,player1.y);
+        } else {
+          ctx.drawImage(player1Sprites[60 + deathTime],player1.x,player1.y);
+        }
+        if (deathTime == 13) {
+          incKO(player2, "p2-kills");
+        }
+      } else if (player2.dead == true) {
+        if (player2.lastDir == "l") {
+          ctx.drawImage(player2Sprites[46 + deathTime],player2.x,player2.y);
+        } else {
+          ctx.drawImage(player2Sprites[60 + deathTime],player2.x,player2.y);
+        }
+        if (deathTime == 13) {
+          incKO(player1, "p1-kills");
+        }
+      }
+    }
+    if (deathTime == 14) {
+      deathTime = 14;
+    }
+
+    requestAnimationFrame(update);
+  }
+}
+
+function loadupgrades() {
+     document.getElementById("up1").innerHTML='<object type="text/html" data="upgradescreen1.html" ></object>';
+     document.getElementById("up2").innerHTML='<object type="text/html" data="upgradescreen2.html" ></object>';
 }
 
 function colCheck(shapeA, shapeB) {
@@ -672,12 +590,6 @@ function colCheck(shapeA, shapeB) {
 // when opponent is hit
 function hurt(victim, attacker) {
   victim.health += attacker.attack;
-  // dead
-  if (false) { //on death
-    victim.dead = true;
-    deathTime = 1;
-    setTimeout(function(){respawn(victim, victimHealth)},400);
-  }
 }
 
 // increment winner’s KO count when he defeated opponent
@@ -690,14 +602,7 @@ function displayDamage(damage, damageCounter) {
   document.getElementById(damageCounter).innerHTML = damage;
 }
 
-// respawn defeated player
-function respawn(newLife) {
-  deathTime = 0;
-  newLife.dead = false;
-  newLife.x = (newLife == player1 ? (width / 4) : (width * 0.75 - 50));
-  newLife.y = height - 100;
-  newLife.health = 0;
-}
+
 
 function getCookie(cname) {
   var name = cname + "=";
@@ -731,28 +636,92 @@ let platforms = [];
 let platThickness = 10;
 
 // floor
-platforms.push({
-    x: 100,
-    y: height - 10,
-    width: width - 200,
-    height: platThickness
-});
-// platforms
-platforms.push({
-    x: (width / 4) - 70,
-    y: height - 160,
-    width: 180,
-    height: platThickness
-});
-platforms.push({
-    x: width - 360,
-    y: height - 160,
-    width: 180,
-    height: platThickness
-});
-platforms.push({
-    x: 310,
-    y: height - 340,
-    width: 360,
-    height: platThickness
-});
+switch(map){
+  case "1":
+  platforms.push({
+      x: 100,
+      y: height - 10,
+      width: width - 200,
+      height: platThickness
+  });
+  // platforms
+  platforms.push({
+      x: (width / 4) - 70,
+      y: height - 160,
+      width: 180,
+      height: platThickness
+  });
+  platforms.push({
+      x: width - 360,
+      y: height - 160,
+      width: 180,
+      height: platThickness
+  });
+  platforms.push({
+      x: 310,
+      y: height - 340,
+      width: 360,
+      height: platThickness
+  });
+    break;
+  case "2":
+  platforms.push({
+      x: 200,
+      y: height - 10,
+      width: width - 400,
+      height: platThickness
+  });
+  // platforms
+  platforms.push({
+      x: 40,
+      y: height - 150,
+      width: 100,
+      height: platThickness
+  });
+  platforms.push({
+      x: 840,
+      y: height - 150,
+      width: 100,
+      height: platThickness
+  });
+  platforms.push({
+      x: 310,
+      y: height - 240,
+      width: 360,
+      height: platThickness
+  });
+    break;
+  case "3":
+  platforms.push({
+      x: 200,
+      y: height - 10,
+      width: 200,
+      height: platThickness
+  });
+  platforms.push({
+      x: 600,
+      y: height - 10,
+      width: 200,
+      height: platThickness
+  });
+  // platforms
+  platforms.push({
+      x: 40,
+      y: height - 250,
+      width: 100,
+      height: platThickness
+  });
+  platforms.push({
+      x: 840,
+      y: height - 250,
+      width: 100,
+      height: platThickness
+  });
+  platforms.push({
+      x: 360,
+      y: height - 240,
+      width: 260,
+      height: platThickness
+  });
+    break;
+}
